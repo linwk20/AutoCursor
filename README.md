@@ -27,6 +27,8 @@ By default, this SDK uses Cursor's **Force Mode** (`--force`). In this mode, the
 You **must** have the Cursor CLI installed and be logged in on your machine.
 Visit [cursor.com/cli](https://cursor.com/en-US/cli) to install.
 
+> Note: If you want to use a different supported agent (e.g. claude code), you need to install and authenticate their corresponding CLI as well. The automation mechanism relies on the agent’s official CLI being available on your system.
+
 ### 2. Create a Virtual Environment (Optional)
 We highly recommend using a virtual environment:
 
@@ -139,7 +141,7 @@ As other agents may support specialized or broader features, you can extend this
 
 ## 🚀 Upcoming Features
 
-We are actively working on enhancing PyCursor-Agent with new features. Upcoming improvements include skill support, multi-agent orchestration, memory, and more.
+We are actively working on enhancing PyCursor-Agent with new features. Upcoming improvements include skill and user-defined prompts support, multi-agent orchestration, memory, and more.
 
 ## 📄 License
 MIT License
