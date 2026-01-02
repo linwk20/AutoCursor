@@ -48,11 +48,11 @@ The SDK provides four primary methods to interact with the AI:
 from pycursor_agent import Client
 ```
 
-### 1. Agent Mode (`.call`)
+### 1. Agent Mode (`.agent`)
 The default autonomous mode. AI can read/write files and execute terminal commands.
 ```python
 client = Client()
-client.call("Write the result of '1 + 1' into result.txt", model="gemini-3-flash")
+client.agent("Write the result of '1 + 1' into result.txt", model="gemini-3-flash")
 ```
 
 ### 2. Ask Mode (`.ask`)
@@ -79,6 +79,14 @@ The project includes a `test_sdk.py` script that demonstrates and verifies all f
 python3 test_sdk.py
 ```
 Test results (including generated files) will be stored in the `test_results/` folder.
+
+## 🏗 API Reference
+
+### `Client`
+- `agent(prompt, model, mode, force, print_output)`: The primary method to interact with the agent.
+- `ask(prompt, model)`: Shortcut for non-modifying Q&A.
+- `debug(prompt, model)`: Shortcut for debugging tasks.
+- `plan(prompt, model)`: Shortcut for planning tasks.
 
 ## 📄 License
 MIT License

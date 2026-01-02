@@ -40,7 +40,7 @@ def test_sdk():
     log("--- 2. Testing 'agent' mode ---")
     try:
         # Ask it to write the result to a file
-        res = client.call("Write the result of '1 + 1' into a file named agent_result.txt", model=model)
+        res = client.agent("Write the result of '1 + 1' into a file named agent_result.txt", model=model)
         log(f"Prompt: Write result of '1 + 1' to file\nResult: {res}\n")
     except Exception as e:
         log(f"Error in 'agent': {e}\n")

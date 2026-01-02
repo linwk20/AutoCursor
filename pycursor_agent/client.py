@@ -21,14 +21,14 @@ class CursorAgentClient:
         self.agent_path = shutil.which(agent_path) or agent_path
         self.workspace = workspace or os.getcwd()
 
-    def call(self, 
+    def agent(self, 
              prompt: str, 
              model: Optional[str] = None, 
              mode: str = "agent", 
              force: bool = True,
              print_output: bool = True) -> str:
         """
-        Call the Cursor Agent with a prompt.
+        Run the Cursor Agent with a prompt.
         
         :param prompt: The task or question for the agent.
         :param model: The AI model to use (e.g., 'gemini-3-flash', 'gpt-5.2').
@@ -79,17 +79,17 @@ class CursorAgentClient:
             return result.stdout.strip()
         except subprocess.CalledProcessError as e:
             error_msg = e.stderr or e.stdout
-            raise RuntimeError(f"Cursor Agent call failed: {error_msg}")
+            raise RuntimeError(f"Cursor Agent execution failed: {error_msg}")
 
     def ask(self, prompt: str, model: Optional[str] = None) -> str:
         """Helper for 'ask' mode."""
-        return self.call(prompt, model=model, mode="ask", force=False)
+        return self.agent(prompt, model=model, mode="ask", force=False)
 
     def debug(self, prompt: str, model: Optional[str] = None) -> str:
         """Helper for 'debug' mode."""
-        return self.call(prompt, model=model, mode="debug")
+        return self.agent(prompt, model=model, mode="debug")
 
     def plan(self, prompt: str, model: Optional[str] = None) -> str:
         """Helper for 'planner' mode."""
-        return self.call(prompt, model=model, mode="planner")
+        return self.agent(prompt, model=model, mode="planner")
 
