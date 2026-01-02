@@ -15,7 +15,7 @@ cursor-agent --model list-models --print "hi"
 ```
 
 ## 🛠 Under the Hood: All is Agent
-It is important to note that the underlying `cursor-agent` CLI primarily operates in **Agent Mode**. The four modes provided by this SDK (`ask`, `agent`, `planner`, `debug`) are achieved through **Prompt Engineering**.
+It is important to note that the underlying `cursor-agent` CLI primarily operates in **Agent Mode**. The four modes provided by this SDK (`agent`, `ask`, `planner`, `debug`) are achieved through **Prompt Engineering**.
 
 ### ⚠️ Warning: Force Mode
 By default, this SDK uses Cursor's **Force Mode** (`--force`). In this mode, the Agent is automatically granted permission to execute all operations, including modifying files and running terminal commands. 
