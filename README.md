@@ -43,20 +43,23 @@ pip install .
 ## 🛠 Usage
 
 ### Import the Package and Initialize Client
-Specify a `workspace` directory to let the Agent "see" and "manage" your project files.
+Specify a `workspace` directory to let the Agent "see" and "manage" your project files. You can choose different clients based on the agent you want to use.
 
 ```python
-from pycursor_agent import Client
+from pycursor_agent import CursorAgentClient, ClaudeCodeClient
 
-# Initialize client with a specific workspace
-client = Client(workspace="./my_project")
+# Initialize Cursor Agent client
+client = CursorAgentClient(workspace="./my_project")
+
+# Or initialize Claude Code client
+# client = ClaudeCodeClient(workspace="./my_project")
 ```
 
 ### Context Management Strategies
 You can manage conversation context in at least two ways:
 
 1.  **File-based Context**: Leverage the Agent's ability to read and write files within the workspace. One Agent can write a plan or state to a file, and another (or the same one in a later call) can read it to continue the task.
-2.  **Chat Session Resumption**: Use Cursor's native `chatId` to resume previous conversations.
+2.  **Chat Session Resumption**: Use the native `chatId` (or session ID) to resume previous conversations.
 
 ```python
 # Create a new chat session
@@ -84,7 +87,7 @@ print(response) # Should output something like "Your name is Alice"
 
 ### `client.agent(prompt, model=None, mode="agent", force=True, approve_mcps=None, chat_id=None, print_output=True)`
 - `prompt` (str): The instruction or question for the AI.
-- `model` (str): The model name (e.g., `gemini-3-flash`, `gpt-5.2`).
+- `model` (str): The model name (e.g., `gemini-3-flash`, `sonnet`, `opus`).
 - `mode` (str): Operation mode (`agent`, `ask`, `planner`, `debug`).
 - `force` (bool): If `True`, automatically approves all file changes and terminal commands. **(Default: True)**
 - `approve_mcps` (bool): Override the client's `approve_mcps` setting for this call.
@@ -92,7 +95,7 @@ print(response) # Should output something like "Your name is Alice"
 - `print_output` (bool): If `True`, the Agent's response will be printed to the console in real-time.
 
 ### `client.ask(prompt, model=None)`
-- Shortcut for `agent()` with `mode="ask"` and `force=False`.
+- Shortcut for `agent()` with `mode="ask"`.
 
 ### `client.plan(prompt, model=None)`
 - Shortcut for `agent()` with `mode="planner"`.
@@ -101,13 +104,37 @@ print(response) # Should output something like "Your name is Alice"
 - Shortcut for `agent()` with `mode="debug"`.
 
 ### `client.create_chat()`
-- Creates a new empty chat session and returns its `chat_id`.
+- Creates a new empty chat session and returns its unique ID.
 
 ## 🧪 Testing
-The project includes a `test_sdk.py` script to verify all modes and features, the results will be placed in `./test_results`.
+
+The project includes separate test cases for different agents under the `test_cases/` directory.
+
+To test the **Cursor Agent**:
 ```bash
-python3 test_sdk.py
+python3 test_cases/test_cursor.py
 ```
+
+To test **Claude Code**:
+```bash
+python3 test_cases/test_claude.py
+```
+
+Test results and logs will be saved in `test_cases/test_results_cursor/` and `test_cases/test_results_claude/` respectively.
+
+## 📦 Supporting More Agents
+
+The SDK is designed with a modular architecture. All agents follow the same `BaseAgentClient` pattern, ensuring a consistent API across different providers. While they share core functionalities like `agent()`, `ask()`, and `create_chat()`, some agents may offer specialized features or better performance in specific tasks.
+
+| Agent | Client Class | CLI Command | Status |
+|-------|--------------|-------------|--------|
+| **Cursor Agent** | `CursorAgentClient` | `cursor-agent` | ✅ Supported |
+| **Claude Code** | `ClaudeCodeClient` | `claude` | ✅ Supported |
+| **Codex** | - | `codex` | 🚧 Coming Soon |
+| **Gemini CLI** | - | `gemini` | 🚧 Coming Soon |
+
+### Custom Agent Implementation
+You can easily add support for more agents by inheriting from `BaseAgentClient` and implementing the necessary command-line mappings.
 
 ## 📄 License
 MIT License

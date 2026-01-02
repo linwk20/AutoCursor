@@ -1,17 +1,35 @@
-import subprocess
-import shutil
-import os
-from typing import Optional, List
+"""
+Cursor Agent Client - Implementation for Cursor's AI Agent CLI.
 
-class CursorAgentClient:
+This module provides a Python wrapper for the Cursor Agent command-line tool,
+allowing programmatic interaction with Cursor's AI capabilities.
+"""
+
+import subprocess
+from typing import Optional
+
+from .base import BaseAgentClient
+
+
+class CursorAgentClient(BaseAgentClient):
     """
     A Python wrapper for the Cursor Agent CLI.
     
     This client allows you to programmatically interact with Cursor's AI Agent
     to perform coding tasks, ask questions, or debug code.
+    
+    Example:
+        >>> from pycursor_agent import CursorAgentClient
+        >>> client = CursorAgentClient()
+        >>> response = client.agent("Create a hello world script")
     """
 
-    def __init__(self, agent_path: str = "cursor-agent", workspace: Optional[str] = None, approve_mcps: bool = True):
+    def __init__(
+        self, 
+        agent_path: str = "cursor-agent", 
+        workspace: Optional[str] = None, 
+        approve_mcps: bool = True
+    ):
         """
         Initialize the Cursor Agent client.
         
@@ -19,18 +37,29 @@ class CursorAgentClient:
         :param workspace: The workspace directory to use. Defaults to current directory.
         :param approve_mcps: Automatically approve all MCP servers. Defaults to True.
         """
-        self.agent_path = shutil.which(agent_path) or agent_path
-        self.workspace = workspace or os.getcwd()
+        super().__init__(
+            executable=agent_path,
+            workspace=workspace,
+            auto_approve=approve_mcps
+        )
+        # Keep approve_mcps as an alias for backwards compatibility
         self.approve_mcps = approve_mcps
 
-    def agent(self, 
-             prompt: str, 
-             model: Optional[str] = None, 
-             mode: str = "agent", 
-             force: bool = True,
-             approve_mcps: Optional[bool] = None,
-             chat_id: Optional[str] = None,
-             print_output: bool = True) -> str:
+    @property
+    def agent_path(self) -> str:
+        """Alias for executable for backwards compatibility."""
+        return self.executable
+
+    def agent(
+        self, 
+        prompt: str, 
+        model: Optional[str] = None, 
+        mode: str = "agent", 
+        force: bool = True,
+        approve_mcps: Optional[bool] = None,
+        chat_id: Optional[str] = None,
+        print_output: bool = True
+    ) -> str:
         """
         Run the Cursor Agent with a prompt.
         
@@ -43,8 +72,7 @@ class CursorAgentClient:
         :param print_output: If True, the agent's response is printed to stdout.
         :return: The string response from the agent.
         """
-        
-        cmd = [self.agent_path]
+        cmd = [self.executable]
         
         if print_output:
             cmd.append("--print")
@@ -58,7 +86,7 @@ class CursorAgentClient:
             
         if model:
             cmd.extend(["--model", model])
-            
+        
         if chat_id:
             cmd.extend(["--resume", chat_id])
             
@@ -77,12 +105,7 @@ class CursorAgentClient:
         cmd.extend(["agent", final_prompt])
         
         try:
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                check=True
-            )
+            result = self._run_command(cmd)
             return result.stdout.strip()
         except subprocess.CalledProcessError as e:
             error_msg = e.stderr or e.stdout
@@ -90,29 +113,14 @@ class CursorAgentClient:
 
     def create_chat(self) -> str:
         """
-        Create a new empty chat session and return its ID.
+        Create a new empty chat and return its ID.
+        
+        :return: The chat ID.
         """
         try:
-            result = subprocess.run(
-                [self.agent_path, "create-chat"],
-                capture_output=True,
-                text=True,
-                check=True
-            )
+            result = self._run_command([self.executable, "create-chat"])
             # Assuming output format like "Created chat: <chatId>" or just the ID
             return result.stdout.strip().split()[-1]
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Failed to create chat: {e.stderr}")
-
-    def ask(self, prompt: str, model: Optional[str] = None) -> str:
-        """Helper for 'ask' mode."""
-        return self.agent(prompt, model=model, mode="ask", force=False)
-
-    def debug(self, prompt: str, model: Optional[str] = None) -> str:
-        """Helper for 'debug' mode."""
-        return self.agent(prompt, model=model, mode="debug")
-
-    def plan(self, prompt: str, model: Optional[str] = None) -> str:
-        """Helper for 'planner' mode."""
-        return self.agent(prompt, model=model, mode="planner")
 
