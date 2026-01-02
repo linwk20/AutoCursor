@@ -77,15 +77,17 @@ print(response) # Should output something like "Your name is Alice"
 
 ## 🏗 API Reference
 
-### `Client(agent_path="cursor-agent", workspace=None)`
+### `Client(agent_path="cursor-agent", workspace=None, approve_mcps=True)`
 - `agent_path` (str): Path to the `cursor-agent` executable.
 - `workspace` (str): The directory where the Agent will operate. Defaults to the current working directory.
+- `approve_mcps` (bool): If `True`, automatically approves all configured MCP servers. **(Default: True)**
 
-### `client.agent(prompt, model=None, mode="agent", force=True, chat_id=None, print_output=True)`
+### `client.agent(prompt, model=None, mode="agent", force=True, approve_mcps=None, chat_id=None, print_output=True)`
 - `prompt` (str): The instruction or question for the AI.
 - `model` (str): The model name (e.g., `gemini-3-flash`, `gpt-5.2`).
 - `mode` (str): Operation mode (`agent`, `ask`, `planner`, `debug`).
 - `force` (bool): If `True`, automatically approves all file changes and terminal commands. **(Default: True)**
+- `approve_mcps` (bool): Override the client's `approve_mcps` setting for this call.
 - `chat_id` (str): Optional ID to resume a previous conversation history.
 - `print_output` (bool): If `True`, the Agent's response will be printed to the console in real-time.
 

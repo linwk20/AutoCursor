@@ -11,21 +11,24 @@ class CursorAgentClient:
     to perform coding tasks, ask questions, or debug code.
     """
 
-    def __init__(self, agent_path: str = "cursor-agent", workspace: Optional[str] = None):
+    def __init__(self, agent_path: str = "cursor-agent", workspace: Optional[str] = None, approve_mcps: bool = True):
         """
         Initialize the Cursor Agent client.
         
         :param agent_path: Path to the cursor-agent executable. Defaults to 'cursor-agent'.
         :param workspace: The workspace directory to use. Defaults to current directory.
+        :param approve_mcps: Automatically approve all MCP servers. Defaults to True.
         """
         self.agent_path = shutil.which(agent_path) or agent_path
         self.workspace = workspace or os.getcwd()
+        self.approve_mcps = approve_mcps
 
     def agent(self, 
              prompt: str, 
              model: Optional[str] = None, 
              mode: str = "agent", 
              force: bool = True,
+             approve_mcps: Optional[bool] = None,
              chat_id: Optional[str] = None,
              print_output: bool = True) -> str:
         """
@@ -35,6 +38,7 @@ class CursorAgentClient:
         :param model: The AI model to use (e.g., 'gemini-3-flash', 'gpt-5.2').
         :param mode: The operation mode ('ask', 'agent', 'planner', 'debug').
         :param force: If True, automatically approve file changes and commands.
+        :param approve_mcps: If True, automatically approve all MCP servers. Defaults to self.approve_mcps.
         :param chat_id: Optional chat ID to resume a previous conversation.
         :param print_output: If True, the agent's response is printed to stdout.
         :return: The string response from the agent.
@@ -47,6 +51,10 @@ class CursorAgentClient:
             
         if force:
             cmd.append("--force")
+
+        should_approve_mcps = approve_mcps if approve_mcps is not None else self.approve_mcps
+        if should_approve_mcps:
+            cmd.append("--approve-mcps")
             
         if model:
             cmd.extend(["--model", model])
