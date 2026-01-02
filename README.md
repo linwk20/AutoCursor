@@ -75,6 +75,32 @@ print(response) # Should output something like "Your name is Alice"
 3.  **Planner Mode (`.plan`)**: Generates an execution plan without performing actions.
 4.  **Debug Mode (`.debug`)**: Focused on bug hunting and fixing.
 
+## 🏗 API Reference
+
+### `Client(agent_path="cursor-agent", workspace=None)`
+- `agent_path` (str): Path to the `cursor-agent` executable.
+- `workspace` (str): The directory where the Agent will operate. Defaults to the current working directory.
+
+### `client.agent(prompt, model=None, mode="agent", force=True, chat_id=None, print_output=True)`
+- `prompt` (str): The instruction or question for the AI.
+- `model` (str): The model name (e.g., `gemini-3-flash`, `gpt-5.2`).
+- `mode` (str): Operation mode (`agent`, `ask`, `planner`, `debug`).
+- `force` (bool): If `True`, automatically approves all file changes and terminal commands. **(Default: True)**
+- `chat_id` (str): Optional ID to resume a previous conversation history.
+- `print_output` (bool): If `True`, the Agent's response will be printed to the console in real-time.
+
+### `client.ask(prompt, model=None)`
+- Shortcut for `agent()` with `mode="ask"` and `force=False`.
+
+### `client.plan(prompt, model=None)`
+- Shortcut for `agent()` with `mode="planner"`.
+
+### `client.debug(prompt, model=None)`
+- Shortcut for `agent()` with `mode="debug"`.
+
+### `client.create_chat()`
+- Creates a new empty chat session and returns its `chat_id`.
+
 ## 🧪 Testing
 The project includes a `test_sdk.py` script to verify all modes and features, the results will be placed in `./test_results`.
 ```bash
