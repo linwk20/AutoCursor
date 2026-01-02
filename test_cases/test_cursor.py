@@ -2,7 +2,7 @@
 Test script for CursorAgentClient.
 
 This script tests the Cursor Agent client to verify all modes and features work correctly.
-Results will be saved in ./test_results/
+Results will be saved in ./test_results_cursor/
 """
 
 from pycursor_agent import CursorAgentClient
@@ -10,32 +10,10 @@ import os
 import shutil
 
 
-def test_sdk():
-    # Set the folder where test results will be stored
-    test_file_root = os.path.dirname(os.path.abspath(__file__))
-    test_results_dir = os.path.join(test_file_root, "test_results_cursor")
-    
-    # Clean and create the test results directory
-    if os.path.exists(test_results_dir):
-        if input(f"Delete test results directory {test_results_dir}? (y/n): ").lower() == "y":
-            shutil.rmtree(test_results_dir)
-        else:
-            print("Please delete the directory manually before running the test.")
-            return
-
-    os.makedirs(test_results_dir)
-    
-    print(f"Testing Cursor Agent SDK. Results will be saved in: {test_results_dir}")
-    
-    client = CursorAgentClient(workspace=test_results_dir)
-    
-    if not client.is_available:
-        print("ERROR: cursor-agent CLI not found. Please install it first.")
-        print("Visit: https://cursor.com/en-US/cli")
-        return
-    
-    model = "gemini-3-flash"
-    
+def run_common_tests(client, test_results_dir, name, model=None):
+    """
+    Common test suite for any CursorAgentClient-compatible client.
+    """
     # Log file path
     log_path = os.path.join(test_results_dir, "test_log.txt")
     
@@ -44,7 +22,7 @@ def test_sdk():
         with open(log_path, "a") as f:
             f.write(msg + "\n")
 
-    log("=== Cursor Agent SDK Test Report ===\n")
+    log(f"=== {name} SDK Test Report ===\n")
 
     # --- PART 1: CONTEXT TESTS ---
     log("=== PART 1: CONTEXT TESTS ===")
@@ -56,8 +34,8 @@ def test_sdk():
         log(f"Created new chat session: {chat_id}")
         
         # Turn 1: Introduce
-        client.agent("My name is Cursor Explorer.", model=model, chat_id=chat_id)
-        log("Sent: My name is Cursor Explorer.")
+        log(f"Sent: My name is {name} Explorer.")
+        client.agent(f"My name is {name} Explorer.", model=model, chat_id=chat_id)
         
         # Turn 2: Ask about the name
         res = client.agent("What is my name?", model=model, chat_id=chat_id)
@@ -117,6 +95,38 @@ def test_sdk():
         log(f"Error in 'debug': {e}\n")
 
     log("=== All Tests Complete ===")
+
+
+def test_sdk():
+    # Set the folder where test results will be stored
+    test_file_root = os.path.dirname(os.path.abspath(__file__))
+    test_results_dir = os.path.join(test_file_root, "test_results_cursor")
+    
+    # Clean and create the test results directory
+    if os.path.exists(test_results_dir):
+        if input(f"Delete test results directory {test_results_dir}? (y/n): ").lower() == "y":
+            shutil.rmtree(test_results_dir)
+        else:
+            print("Please delete the directory manually before running the test.")
+            return
+
+    os.makedirs(test_results_dir)
+    
+    print(f"Testing Cursor Agent SDK. Results will be saved in: {test_results_dir}")
+    
+    client = CursorAgentClient(workspace=test_results_dir)
+    
+    if not client.is_available:
+        print("ERROR: cursor-agent CLI not found. Please install it first.")
+        print("Visit: https://cursor.com/en-US/cli")
+        return
+    
+    run_common_tests(
+        client=client,
+        test_results_dir=test_results_dir,
+        name="Cursor Agent",
+        model="gemini-3-flash"
+    )
 
 
 if __name__ == "__main__":

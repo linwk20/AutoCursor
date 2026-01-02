@@ -1,2 +1,2 @@
 def power(a, b):
-    return a ** b  # Corrected logic to perform exponentiation
+    return a ** b  # Correct logic, should be a ** b

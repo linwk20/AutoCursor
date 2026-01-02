@@ -113,13 +113,12 @@ class ClaudeCodeClient(BaseAgentClient):
             cmd.append("--dangerously-skip-permissions")
         
         # --tools controls available tools (only works with --print mode)
-        # approve_mcps=True means use all tools ("default"), False means no tools ("")
+        # approve_mcps=True means use all tools ("default")
         should_approve_mcps = approve_mcps if approve_mcps is not None else self.approve_mcps
-        if print_output:
-            if should_approve_mcps:
-                cmd.extend(["--tools", "default"])
-            else:
-                cmd.extend(["--tools", ""])
+        if should_approve_mcps:
+            cmd.extend(["--tools", "default"])
+        else:
+            cmd.extend(["--tools", ""])
         
         # Model selection (with alias conversion)
         if model:
@@ -139,6 +138,8 @@ class ClaudeCodeClient(BaseAgentClient):
         elif mode == "planner":
             final_prompt = f"[MODE: PLANNER - Create a detailed plan for the following task but do not execute yet] {prompt}"
         
+        # Add -- to separate options from prompt
+        cmd.append("--")
         # Add prompt at the end (Claude CLI takes prompt as positional arg)
         cmd.append(final_prompt)
         
@@ -146,6 +147,7 @@ class ClaudeCodeClient(BaseAgentClient):
             # Run from workspace directory if specified
             env = os.environ.copy()
             cwd = self.workspace if self.workspace else None
+
             
             result = subprocess.run(
                 cmd,
@@ -174,6 +176,7 @@ class ClaudeCodeClient(BaseAgentClient):
             "--print",
             "--output-format", "json",
             "--dangerously-skip-permissions",
+            "--",
             "Say OK"  # Minimal prompt to create session
         ]
         

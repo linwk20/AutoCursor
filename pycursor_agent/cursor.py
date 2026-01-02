@@ -105,7 +105,13 @@ class CursorAgentClient(BaseAgentClient):
         cmd.extend(["agent", final_prompt])
         
         try:
-            result = self._run_command(cmd)
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                check=True,
+                cwd=self.workspace
+            )
             return result.stdout.strip()
         except subprocess.CalledProcessError as e:
             error_msg = e.stderr or e.stdout
@@ -118,7 +124,13 @@ class CursorAgentClient(BaseAgentClient):
         :return: The chat ID.
         """
         try:
-            result = self._run_command([self.executable, "create-chat"])
+            result = subprocess.run(
+                [self.executable, "create-chat"],
+                capture_output=True,
+                text=True,
+                check=True,
+                cwd=self.workspace
+            )
             # Assuming output format like "Created chat: <chatId>" or just the ID
             return result.stdout.strip().split()[-1]
         except subprocess.CalledProcessError as e:

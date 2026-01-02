@@ -43,12 +43,14 @@ pip install .
 ## 🛠 Usage
 
 ### Import the Package and Initialize Client
-Specify a `workspace` directory to let the Agent "see" and "manage" your project files. You can choose different clients based on the agent you want to use.
+Specify a `workspace` directory to let the Agent "see" and "manage" your project files. 
+
+Although primarily designed for Cursor, the SDK supports other agents (e.g. Claude Code) using a consistent interface.
 
 ```python
 from pycursor_agent import CursorAgentClient, ClaudeCodeClient
 
-# Initialize Cursor Agent client
+# Initialize Cursor Agent client (Default)
 client = CursorAgentClient(workspace="./my_project")
 
 # Or initialize Claude Code client
@@ -115,7 +117,7 @@ To test the **Cursor Agent**:
 python3 test_cases/test_cursor.py
 ```
 
-To test **Claude Code**:
+To test other agents, such as **Claude Code**:
 ```bash
 python3 test_cases/test_claude.py
 ```
@@ -124,7 +126,9 @@ Test results and logs will be saved in `test_cases/test_results_cursor/` and `te
 
 ## 📦 Supporting More Agents
 
-The SDK is designed with a modular architecture. All agents follow the same `BaseAgentClient` pattern, ensuring a consistent API across different providers. While they share core functionalities like `agent()`, `ask()`, and `create_chat()`, some agents may offer specialized features or better performance in specific tasks.
+While this project is primarily focused on the Cursor Agent, its architecture is designed to support other CLI-based AI coding assistants effortlessly. We provide a unified interface that wraps different models to maintain consistency with Cursor's usage patterns.
+
+As other agents may support specialized or broader features, you can extend this package to expose and leverage those specific capabilities.
 
 | Agent | Client Class | CLI Command | Status |
 |-------|--------------|-------------|--------|
@@ -133,8 +137,9 @@ The SDK is designed with a modular architecture. All agents follow the same `Bas
 | **Codex** | - | `codex` | 🚧 Coming Soon |
 | **Gemini CLI** | - | `gemini` | 🚧 Coming Soon |
 
-### Custom Agent Implementation
-You can easily add support for more agents by inheriting from `BaseAgentClient` and implementing the necessary command-line mappings.
+## 🚀 Upcoming Features
+
+We are actively working on enhancing PyCursor-Agent with new features. Upcoming improvements include skill support, multi-agent orchestration, memory, and more.
 
 ## 📄 License
 MIT License

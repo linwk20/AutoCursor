@@ -52,27 +52,6 @@ class BaseAgentClient(ABC):
         """Check if the executable is available."""
         return shutil.which(self.executable) is not None
 
-    def _run_command(
-        self, 
-        cmd: List[str], 
-        capture_output: bool = True,
-        check: bool = True
-    ) -> subprocess.CompletedProcess:
-        """
-        Run a subprocess command.
-        
-        :param cmd: Command and arguments as a list.
-        :param capture_output: If True, capture stdout and stderr.
-        :param check: If True, raise an exception on non-zero exit.
-        :return: CompletedProcess instance.
-        """
-        return subprocess.run(
-            cmd,
-            capture_output=capture_output,
-            text=True,
-            check=check
-        )
-
     @abstractmethod
     def agent(
         self, 
