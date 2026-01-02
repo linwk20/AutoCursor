@@ -1,0 +1,82 @@
+=== Cursor Agent SDK Test Report ===
+
+--- 1. Testing 'ask' mode ---
+Prompt: What is 1 + 1?
+Result: 1 + 1 is 2.
+
+--- 2. Testing 'agent' mode ---
+Prompt: Write result of '1 + 1' to file
+Result: I've written the result of `1 + 1` to `agent_result.txt`.
+
+--- 3. Testing 'planner' mode ---
+Prompt: Plan a calculator program
+Result: I have created a plan to build your simple calculator program in Python. Here is the detailed step-by-step approach:
+
+### 1. Design & Requirements
+We'll build a command-line interface (CLI) calculator that supports:
+- Addition, subtraction, multiplication, and division.
+- A continuous loop so the user can perform multiple calculations.
+- A way to exit the program.
+
+### 2. Implementation Steps
+
+#### Step A: Core Math Functions
+Create a set of functions to handle the mathematical operations. This keeps the code clean and easy to test.
+```python
+def add(x, y): return x + y
+def subtract(x, y): return x - y
+# ... and so on
+```
+
+#### Step B: User Input & Interaction
+Implement a `main()` function that:
+- Displays a menu of options.
+- Prompts the user to select an operation.
+- Prompts for two numbers.
+- Handles the logic to call the correct math function based on selection.
+
+#### Step C: Error Handling
+Robustness is key! We will add:
+- Checks for division by zero.
+- Validation to ensure the user enters actual numbers rather than text.
+- Handling of invalid menu choices.
+
+#### Step D: Main Loop
+Wrap the logic in a `while True` loop so the user can continue calculating until they choose to "Exit".
+
+### 3. Testing
+Once implemented, we'll verify:
+- Standard calculations (e.g., $5 + 3 = 8$).
+- Edge cases (e.g., dividing by zero).
+- Input validation (e.g., entering "abc" instead of a number).
+
+---
+
+**Would you like me to proceed with implementing Step A (the core math functions) in a new file named `calculator.py`?**
+
+--- 4. Testing 'debug' mode ---
+Prompt: Fix buggy_code.py
+Result: The `add` function in `buggy_code.py` was incorrectly performing subtraction instead of addition. I have corrected the implementation.
+
+### Changes made:
+
+```1:2:/home/lwk/ur_research/cursor-agent-sdk/test_results/buggy_code.py
+def add(a, b):
+    return a + b
+```
+
+### Verification:
+
+I verified the fix by running a simple test command:
+
+```bash
+python3 -c "from buggy_code import add; print(f'add(1, 2) = {add(1, 2)}'); assert add(1, 2) == 3; print('Test passed!')"
+```
+
+Output:
+```
+add(1, 2) = 3
+Test passed!
+```
+
+=== Test Complete ===
