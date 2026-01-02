@@ -37,7 +37,7 @@ We highly recommend using a virtual environment:
 
 ### 3. Install the SDK
 ```bash
-pip install pycursor_agent
+pip install .
 ```
 
 ## 🛠 Usage
