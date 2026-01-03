@@ -45,6 +45,8 @@ class CodexClient(BaseAgentClient):
             auto_approve=approve_mcps
         )
         self.approve_mcps = approve_mcps
+        print("[pycursor_agent][CodexClient] WARNING: CodexClient always enable Force mode if 'force' is True OR 'approve_mcps' is True.", flush=True)
+
 
     @property
     def agent_path(self) -> str:
