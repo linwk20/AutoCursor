@@ -136,8 +136,8 @@ As other agents may support specialized or broader features, you can extend this
 |-------|--------------|-------------|--------|
 | **Cursor Agent** | `CursorAgentClient` | `cursor-agent` | ✅ Supported |
 | **Claude Code** | `ClaudeCodeClient` | `claude` | ✅ Supported |
-| **Codex** | - | `codex` | 🚧 Coming Soon |
-| **Gemini CLI** | - | `gemini` | 🚧 Coming Soon |
+| **Gemini CLI** | `GeminiClient` | `gemini` | ✅ Supported |
+| **Codex CLI** | `CodexClient` | `codex` | ✅ Supported |
 
 ## 🚀 Upcoming Features
 

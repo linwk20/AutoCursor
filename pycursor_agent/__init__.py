@@ -25,6 +25,12 @@ from .cursor import CursorAgentClient
 # Claude Code
 from .claude import ClaudeCodeClient
 
+# Gemini Client
+from .gemini import GeminiClient
+
+# Codex Client
+from .codex import CodexClient
+
 
 __all__ = [
     # Base
@@ -33,7 +39,8 @@ __all__ = [
     # Implementations
     "CursorAgentClient",
     "ClaudeCodeClient",
-
+    "GeminiClient",
+    "CodexClient",
 ]
 
 __version__ = "0.2.0"

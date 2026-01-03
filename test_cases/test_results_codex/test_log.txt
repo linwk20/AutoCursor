@@ -1,0 +1,35 @@
+=== Codex SDK Test Report ===
+
+=== PART 1: CONTEXT TESTS ===
+--- 1.1 Testing Chat Session Resumption ---
+Created new chat session: 019b824a-d13e-7d01-983e-396eebd24e6c
+Sent: My name is Codex Explorer.
+Sent: What is my name?
+Result: Your name is Codex Explorer.
+
+--- 1.2 Testing File-based Context ---
+Step 1: Added `context_file.txt` with the requested line: `Context test: Step 1 passed`.
+Step 2: Context file says: “Context test: Step 1 passed.”
+
+
+=== PART 2: FUNCTIONALITY TESTS ===
+--- 2.1 Testing 'agent' mode (standard) ---
+Result: Created `mode_test.txt` with the current date and time.
+
+--- 2.2 Testing 'ask' mode ---
+Result: Paris.
+
+--- 2.3 Testing 'planner' mode ---
+Result: Using planner mode only. Here's a detailed plan to build a simple Todo app:
+
+- Clarify basics: confirm stack (vanilla JS/HTML/CSS vs React/Vue/etc.), whether persistence is localStorage or backend API, styling expectations (plain vs design system), and target environment (browser only).
+- Scaffold project: set up repo structure (e.g., `src/`, `public/`), choose build tool if needed (Vite/CRA/vanilla), configure package scripts, lint/format, and install dependencies.
+- Model & state: define todo shape (id, text, completed, createdAt), choose state management approach (component state, context, or simple store), and decide filtering (all/active/completed) and ordering.
+- Implement UI: build layout with input form to add todos, list rendering, toggle complete, edit text, delete, filters, clear completed, and remaining count; add accessible keyboard/mouse interactions.
+- Persistence & UX polish: add data persistence (localStorage or API calls), input validation (non-empty), error handling, optimistic updates if API, and basic styling/theme.
+- Testing & docs: manually verify flows, add lightweight tests (unit/component if applicable), and write a short README with setup/run/test instructions and known limitations.
+
+--- 2.4 Testing 'debug' mode ---
+Result: Fixed power calculation to use exponentiation. Updated `buggy.py` so `power(a, b)` now returns `a ** b`. Suggestion: run `python -c "from buggy import power; print(power(2,3))"` to verify it outputs 8.
+
+=== All Tests Complete ===
