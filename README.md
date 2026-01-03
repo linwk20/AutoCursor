@@ -8,6 +8,11 @@ A powerful Python wrapper for the [Cursor Agent CLI](https://cursor.com/en-US/cl
 2.  **Cost Effective**: Use Cursor's competitive API pricing for your own automated workflows and general agents.
 3.  **General Agent Framework**: Build custom scripts, CI/CD integrations, or complex multi-step agents that interact with your filesystem and run commands autonomously.
 4.  **Multi-Model Support**: Easily switch between top-tier models like `gemini-3-flash`, `gemini-3-pro`, `opus-4.5-thinking`, and `gpt-5.2`.
+   
+   Check available models using:
+    ```bash
+    cursor-agent --model list-models --print "hi"
+    ```
 
 ## 📢 News
 
@@ -17,10 +22,6 @@ A powerful Python wrapper for the [Cursor Agent CLI](https://cursor.com/en-US/cl
   ```
 - **2026-01-02**: PYCURSOR-AGENT is officially released with support for **Cursor Agent**!
 
-Check available models using:
-```bash
-cursor-agent --model list-models --print "hi"
-```
 
 ## 🛠 Under the Hood: All is Agent
 It is important to note that the underlying `cursor-agent` CLI primarily operates in **Agent Mode**. The four modes provided by this SDK (`agent`, `ask`, `planner`, `debug`) are achieved through **Prompt Engineering**.
