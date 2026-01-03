@@ -9,6 +9,14 @@ A powerful Python wrapper for the [Cursor Agent CLI](https://cursor.com/en-US/cl
 3.  **General Agent Framework**: Build custom scripts, CI/CD integrations, or complex multi-step agents that interact with your filesystem and run commands autonomously.
 4.  **Multi-Model Support**: Easily switch between top-tier models like `gemini-3-flash`, `gemini-3-pro`, `opus-4.5-thinking`, and `gpt-5.2`.
 
+## 📢 News
+
+- **2026-01-03**: PYCURSOR-AGENT now supports **Claude Code**, **Gemini CLI**, and **Codex CLI**! All agents share the same API as Cursor Agent. You can now import all four clients with a single line:
+  ```python
+  from pycursor_agent import CursorAgentClient, ClaudeCodeClient, GeminiClient, CodexClient
+  ```
+- **2026-01-02**: PYCURSOR-AGENT is officially released with support for **Cursor Agent**!
+
 Check available models using:
 ```bash
 cursor-agent --model list-models --print "hi"
